@@ -1,14 +1,22 @@
 apply plugin: 'com.android.library'
 
+ext{
+    defaultCompileSdkVersion = 27
+    defaultTargetSdkVersion = 27
+    defaultBuildToolVersion = "27.0.3"
+    defaultSupportLibVersion = "27.1.1"
+    defaultGoogleGsonVersion = "2.8.5"
+}
+
 android {
-    compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    compileSdkVersion rootProject.hasProperty("compileSdkVersion") ? rootProject.compileSdkVersion : defaultCompileSdkVersion
+    buildToolsVersion rootProject.hasProperty("buildToolVersion") ? rootProject.buildToolVersion : defaultBuildToolVersion
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 27
+        targetSdkVersion rootProject.hasProperty("targetSdkVersion") ? rootProject.targetSdkVersion : defaultTargetSdkVersion
         versionCode 1
-        versionName "5.30"
+        versionName "5.32"
     }
     buildTypes {
         release {
@@ -25,13 +33,12 @@ android {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    api 'com.google.code.gson:gson:2.8.5'
+    api "com.android.support:appcompat-v7:${rootProject.hasProperty("supportLibVersion") ? rootProject.supportLibVersion : defaultSupportLibVersion}"
+    api "com.google.code.gson:gson:${rootProject.hasProperty("googleGsonVersion") ? rootProject.googleGsonVersion : defaultGoogleGsonVersion}"
 }
 
-/*
 
-ext {
+/*ext {
     // Where you will see your artifact in Bintray's web interface
     // The "bintrayName" should match the name of the Bintray repro.
     bintrayRepo = 'maven'
@@ -45,7 +52,7 @@ ext {
     artifact = 'mobicommons'
 
     libraryDescription = 'Applozic MobiFramekwork mobicommons library for utilities'
-    libraryVersion = '5.30'
+    libraryVersion = '5.32'
     developerId = 'devashish'
     developerName = 'Applozic'
     developerEmail = 'devashish.mamgain@gmail.com'
@@ -53,8 +60,7 @@ ext {
 
 
 apply from: 'https://raw.githubusercontent.com/attwellBrian/JCenter/master/installv1.gradle'
-apply from: 'https://raw.githubusercontent.com/attwellBrian/JCenter/master/bintrayv1.gradle'
-*/
+apply from: 'https://raw.githubusercontent.com/attwellBrian/JCenter/master/bintrayv1.gradle'*/
 
 
 

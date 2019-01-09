@@ -7,6 +7,7 @@ import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.applozic.mobicomkit.AlUserUpdate;
 import com.applozic.mobicomkit.Applozic;
 import com.applozic.mobicomkit.api.notification.NotificationChannels;
 import com.applozic.mobicomkit.exception.ApplozicException;
@@ -494,22 +495,26 @@ public class UserClientService extends MobiComKitClientService {
         return response;
     }
 
-    public ApiResponse updateDisplayNameORImageLink(String displayName, String profileImageLink, String status, String contactNumber) {
-        JSONObject jsonFromObject = new JSONObject();
+    public ApiResponse updateDisplayNameORImageLink(String displayName, String profileImageLink, String status, String contactNumber, Map<String, String> metadata) {
+        AlUserUpdate userUpdate = new AlUserUpdate();
         try {
             if (!TextUtils.isEmpty(displayName)) {
-                jsonFromObject.put("displayName", displayName);
+                userUpdate.setDisplayName(displayName);
             }
             if (!TextUtils.isEmpty(profileImageLink)) {
-                jsonFromObject.put("imageLink", profileImageLink);
+                userUpdate.setImageLink(profileImageLink);
             }
             if (!TextUtils.isEmpty(status)) {
-                jsonFromObject.put("statusMessage", status);
+                userUpdate.setStatusMessage(status);
             }
             if (!TextUtils.isEmpty(contactNumber)) {
-                jsonFromObject.put("phoneNumber", contactNumber);
+                userUpdate.setPhoneNumber(contactNumber);
             }
-            String response = httpRequestUtils.postData(getUserProfileUpdateUrl(), "application/json", "application/json", jsonFromObject.toString());
+            if (metadata != null && !metadata.isEmpty()) {
+                userUpdate.setMetadata(metadata);
+            }
+
+            String response = httpRequestUtils.postData(getUserProfileUpdateUrl(), "application/json", "application/json", GsonUtils.getJsonFromObject(userUpdate, AlUserUpdate.class));
             Utils.printLog(context, TAG, response);
             return ((ApiResponse) GsonUtils.getObjectFromJson(response, ApiResponse.class));
         } catch (JSONException e) {

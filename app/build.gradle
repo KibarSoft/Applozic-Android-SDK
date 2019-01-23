@@ -28,7 +28,7 @@ android {
 
     defaultConfig {
         applicationId "com.mobicomkit.sample"
-        minSdkVersion 14
+        minSdkVersion 17
         targetSdkVersion rootProject.hasProperty("targetSdkVersion") ? rootProject.targetSdkVersion : defaultTargetSdkVersion
         versionCode 1
         versionName "1.0"

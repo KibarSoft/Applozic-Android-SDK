@@ -359,7 +359,7 @@ public class ConversationActivity extends AppCompatActivity implements MessageCo
         baseContactService = new AppContactService(this);
         conversationUIService = new ConversationUIService(this);
         mobiComMessageService = new MobiComMessageService(this, MessageIntentService.class);
-        quickConversationFragment = new MobiComQuickConversationFragment();
+        initQuickConversationFragment();
         connectivityReceiver = new ConnectivityReceiver();
         geoApiKey = Utils.getMetaDataValue(getApplicationContext(), GOOGLE_API_KEY_META_DATA);
         activityToOpenOnClickOfCallButton = Utils.getMetaDataValue(getApplicationContext(), ACTIVITY_TO_OPEN_ONCLICK_OF_CALL_BUTTON_META_DATA);
@@ -471,6 +471,10 @@ public class ConversationActivity extends AppCompatActivity implements MessageCo
             getApplicationContext().getContentResolver().registerContentObserver(
                     ContactsContract.Contacts.CONTENT_URI, true, observer);
         }
+    }
+
+    protected void initQuickConversationFragment() {
+        quickConversationFragment = new MobiComQuickConversationFragment();
     }
 
     @Override
